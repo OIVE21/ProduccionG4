@@ -1,1 +1,251 @@
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Validación de Formularios con JS</title>
+    <meta name="description" content="En este ejercicio aprenderemos a validar formularios con JavaScript y darles presentación con CSS." />
+    <style>
+        *
+{
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+            margin-left: 50px;
+            background-image: url('https://i.postimg.cc/DyqB8K4q/image.png');
+            background-size:cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+}
+
+h2{
+  color:#FA056B;
+}
+
+fieldset
+{
+    background: white;
+    border: thin solid skyblue;
+    border-radius: 30px;
+    padding: 1em;
+    
+}
+
+form
+{
+    margin: .5em auto;
+    width: 50%;
+    
+}
+
+input[type="button"]
+{
+    background: green;
+    border: thin solid transparent;
+    border-radius: .5em;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+    padding: .5em;
+}
+
+input[type="button"]:hover
+{
+    background: skyblue;
+    border: thin solid #F60;
+    border-radius: 0;
+    color: #5CEDEB;
+}
+
+input[type="radio"], label
+{
+    cursor: pointer;
+}
+
+input[type="text"], textarea
+{
+    background: #59FFC5;
+    border: thin solid skyblue;
+    border-radius: 1em;
+    color: black;
+    font-size: 1em;
+    padding: .25em;
+}
+
+input[type="text"]:focus, textarea:focus
+{
+    background: aliceblue;
+}
+
+textarea
+{
+    resize: none;
+}
+
+legend
+{
+    color: #333;
+    font-size: 2em;
+    font-weight: bold;
+    
+}
+
+.cambio
+{
+    -ms-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
+:focus
+{
+    box-shadow: .1em .1em .5em rgba(255,102,0,.5);
+    outline: thin solid #F60;
+}
+img{
+position: absolute;
+top: 19em;
+left: 67em;
+    width: 17em;
+}
+    </style>
+</head>
+<body>
+    <br><br><br><br><br><br><br><br><br><br>
+    <img src="dedo.webp" ><br>
+    <form id="contacto-frm" name="contacto_frm" action="" method="get" enctype="application/x-www-form-urlencoded">
+        <fieldset>
+            <legend >Nos Encantaria Tener Tu Opinion</legend>
+            <label for="nombre">Nombre: </label>
+            <input type="text" id="nombre" name="nombre_txt" class="cambio" />
+            <br /><br />
+            <label for="edad">Edad: </label>
+            <input type="text" id="edad" name="edad_txt" class="cambio" />
+            <br /><br />
+            <label for="email">Email: </label>
+            <input type="text" id="email" name="email_txt" class="cambio" />
+            <br /><br />
+            <label for="sexo">Sexo:</label>
+            <input type="radio" id="M" name="sexo_rdo" value="M" /> <label for="M">Masculino</label>            
+            <input type="radio" id="F" name="sexo_rdo" value="F" /><label for="F">Femenino</label>
+            <br /><br />
+            <label for="asunto">Asunto: </label>
+            <input type="text" id="asunto" name="asunto_txt" class="cambio" />
+            <br /><br />
+            <label for="comentarios">Comentarios:</label>
+            <br />
+            <textarea name="comentarios_txa" id="comentarios" cols="50" rows="5" class="cambio"></textarea>
+            <br /><br />
+            <input type="button" id="enviar" class="cambio" name="enviar_btn" value="Enviar" />
+            <input type="button" id="limpiar" class="cambio" name="limpiar_btn" value="Limpiar" />          
+        </fieldset>
+    </form>
+    
+  
+    <script>
+        function validarForm()
+{
+    var verificar = true;
+    var expRegNombre=/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/;
+    var expRegEmail=/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+    var formulario = document.getElementById("contacto-frm");
+    var nombre = document.getElementById("nombre");
+    var edad = document.getElementById("edad");
+    var email = document.getElementById("email");
+    var masculino = document.getElementById("M");
+    var femenino = document.getElementById("F");
+    var asunto = document.getElementById("asunto");
+    var comentarios = document.getElementById("comentarios");
+
+    if(!nombre.value)
+    {
+        alert("El campo nombre es requerido");
+        nombre.focus();
+        verificar = false;
+    }
+    else if(!expRegNombre.exec(nombre.value))
+    {
+        alert("El campo nombre solo acepta letras y espacios en blanco");
+        nombre.focus();
+        verificar=false;
+    }
+    else if(!edad.value)
+    {
+        alert("El campo edad es requerido");
+        edad.focus();
+        verificar = false;
+    }
+    else if(isNaN(edad.value)) 
+    {
+        alert("El campo edad solo acepta números");
+        edad.focus();
+        verificar = false;
+    }
+    else if(!email.value)
+    {
+        alert("El campo email es requerido");
+        email.focus();
+        verificar = false;
+    }
+    else if(!expRegEmail.exec(email.value))
+    {
+        alert("El campo email no es valido");
+        email.focus();
+        verificar=false;
+    }
+    else if(!masculino.checked && !femenino.checked)
+    {
+        alert("El campo sexo es requerido");
+        femenino.focus();
+        verificar = false;
+    }
+    else if(!asunto.value)
+    {
+        alert("El campo asunto es requerido");
+        asunto.focus();
+        verificar = false;
+    }
+    else if(!comentarios.value)
+    {
+        alert("El campo comentarios es requerido");
+        comentarios.focus();
+        verificar = false;
+    }
+    else if(comentarios.value.length > 255)
+    {
+        alert("El campo comentarios no puede tener más de 255 caracteres");
+        comentarios.focus();
+        verificar = false;
+    }
+    
+    if(verificar)
+    {
+        alert("Se ha enviado el formulario");
+        document.contacto_frm.submit();
+    }
+}
+
+function limpiarForm()
+{
+    alert("Limpiando");
+    document.getElementById("contacto-frm").reset();
+}
+
+window.onload = function()
+{
+    var botonEnviar, botonLimpiar;
+    botonLimpiar = document.getElementById("limpiar");
+    botonLimpiar.onclick = limpiarForm;
+
+    botonEnviar = document.contacto_frm.enviar_btn;
+    botonEnviar.onclick = validarForm;
+}
+    </script>
+</body>
+</html>
 
